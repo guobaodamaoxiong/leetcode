@@ -1,0 +1,48 @@
+两数之和
+//uthash
+//
+ struct hash
+ {
+     int key;
+     int val;
+     UT_hash_handle hh;
+ };
+ struct hash *myhash;
+ struct hash *find(int key)
+ {
+     struct hash *s;
+     HASH_FIND_INT(myhash,&key,s);
+     return s;
+ }
+ void insert(int key,int val)
+ {
+     //struct hash*s=find(key);
+     struct hash *s;
+   HASH_FIND_INT(myhash,&key,s);
+     if(s==NULL)
+     {
+        struct hash*new=malloc(sizeof(struct hash));
+        new->key=key;
+        new->val=val;
+        HASH_ADD_INT(myhash,key,new);
+     }
+     else
+        s->val=val;
+ }
+int* twoSum(int* nums, int numsSize, int target, int* returnSize){
+    myhash=NULL;
+    for(int i=0;i<numsSize;i++)
+    {
+        struct hash*s=find(target-nums[i]);
+        if(s)
+        {
+            int *ret=malloc(sizeof(int)*2);
+            ret[0]=s->val; ret[1]=i;
+            *returnSize=2;
+            return ret;
+        }
+            insert(nums[i],i);
+    }
+    *returnSize=0;
+    return NULL;
+}
